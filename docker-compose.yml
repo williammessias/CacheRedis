@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  mysql_dev:
+    build: mysql-container
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - ${MYSQL_PORT}:${MYSQL_PORT}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - mysql-compose-network
+
+  adminer:
+    image: adminer
+    env_file:
+      - .env
+    ports:
+      - ${ADMINER_PORT}:${ADMINER_PORT}
+    networks:
+      - mysql-compose-network
+
+  redis:
+    image: redis
+    env_file:
+      - .env
+    command: redis-server --requirepass ${REDIS_ROOT_PASSWORD}
+    volumes:
+      - redis-data:/data/db
+    networks:
+      - redis-network
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+  
+networks: 
+  mysql-compose-network:
+    driver: bridge
+  redis-network:
+    driver: bridge
+
+volumes:
+  mysql-data: {}
+  redis-data: {}
