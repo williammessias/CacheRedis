@@ -6,10 +6,10 @@ services:
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: 74085751a
+      MYSQL_DATABASE: Monitoramento
     ports:
-      - ${MYSQL_PORT}:${MYSQL_PORT}
+      - 3306:3306
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
@@ -20,7 +20,7 @@ services:
     env_file:
       - .env
     ports:
-      - ${ADMINER_PORT}:${ADMINER_PORT}
+      - 8282:8282
     networks:
       - mysql-compose-network
 
@@ -28,13 +28,13 @@ services:
     image: redis
     env_file:
       - .env
-    command: redis-server --requirepass ${REDIS_ROOT_PASSWORD}
+    command: redis-server --requirepass 74085751a
     volumes:
       - redis-data:/data/db
     networks:
       - redis-network
     ports:
-      - ${REDIS_PORT}:${REDIS_PORT}
+      - 6379:6379
   
 networks: 
   mysql-compose-network:
